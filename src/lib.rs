@@ -31,9 +31,8 @@ pub fn run() -> Result<()> {
         print(state.answer, state.problem);
 
         if state.answer == state.problem {
-            println!("You win!");
+            println!("You win! Finished in {}ms", state.now.elapsed().unwrap().as_millis());
             println!("Hit any key to continue...");
-            println!("{}ms", state.now.elapsed().unwrap().as_millis());
 
             get_char()?;
 
@@ -59,7 +58,7 @@ fn print(answer: u8, problem: u8) {
     escape_sequence(&"H");
 
     println!("--------------------");
-    println!("Answer to match: {:3}", problem);
+    println!("Target number:   {:3}", problem);
     println!("{:08b}       = {:3}", answer, answer);
 }
 
