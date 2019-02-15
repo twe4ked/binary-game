@@ -6,28 +6,41 @@ use std::{
     time::SystemTime,
 };
 
+struct State {
+    answer: u8,
+    problem: u8,
+    now: SystemTime,
+}
+
+impl State {
+    fn new() -> State {
+        let mut rng = rand::thread_rng();
+
+        State {
+            answer: 0,
+            problem: rng.gen(),
+            now: SystemTime::now(),
+        }
+    }
+}
+
 pub fn run() -> Result<()> {
     setup_terminal()?;
 
-    let mut rng = rand::thread_rng();
-    let mut answer: u8 = 0;
-    let mut problem: u8 = rng.gen();
-    let mut now = SystemTime::now();
+    let mut state = State::new();
 
     loop {
-        print(answer, problem);
+        print(state.answer, state.problem);
 
-        if answer == problem {
-            problem = rng.gen();
-            answer = 0;
+        if state.answer == state.problem {
             println!("You win!");
             println!("Hit any key to continue...");
-            println!("{}ms", now.elapsed().unwrap().as_millis());
-            now = SystemTime::now();
+            println!("{}ms", state.now.elapsed().unwrap().as_millis());
+            state = State::new();
 
             get_char()?;
         } else {
-            answer ^= match get_char() {
+            state.answer ^= match get_char() {
                 Ok('1') => 0b1000_0000,
                 Ok('2') => 0b0100_0000,
                 Ok('3') => 0b0010_0000,
