@@ -14,11 +14,9 @@ struct State {
 
 impl State {
     fn new() -> State {
-        let mut rng = rand::thread_rng();
-
         State {
             answer: 0,
-            problem: rng.gen(),
+            problem: rand::thread_rng().gen(),
             now: SystemTime::now(),
         }
     }
