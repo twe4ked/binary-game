@@ -36,9 +36,10 @@ pub fn run() -> Result<()> {
             println!("You win!");
             println!("Hit any key to continue...");
             println!("{}ms", state.now.elapsed().unwrap().as_millis());
-            state = State::new();
 
             get_char()?;
+
+            state = State::new();
         } else {
             state.answer ^= match get_char() {
                 Ok('1') => 0b1000_0000,
