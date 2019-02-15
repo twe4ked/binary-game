@@ -1,5 +1,10 @@
+#![feature(duration_as_u128)]
+
 use rand::Rng;
-use std::io::{self, Read, Result, Write};
+use std::{
+    io::{self, Read, Result, Write},
+    time::SystemTime,
+};
 
 pub fn run() -> Result<()> {
     setup_terminal()?;
@@ -7,6 +12,7 @@ pub fn run() -> Result<()> {
     let mut rng = rand::thread_rng();
     let mut answer: u8 = 0;
     let mut problem: u8 = rng.gen();
+    let mut now = SystemTime::now();
 
     loop {
         print(answer, problem);
@@ -16,6 +22,9 @@ pub fn run() -> Result<()> {
             answer = 0;
             println!("You win!");
             println!("Hit any key to continue...");
+            println!("{}ms", now.elapsed().unwrap().as_millis());
+            now = SystemTime::now();
+
             get_char()?;
         } else {
             answer ^= match get_char() {
