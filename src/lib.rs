@@ -82,12 +82,9 @@ fn setup_terminal() -> Result<()> {
 }
 
 fn get_char() -> Result<char> {
-    let stdout = io::stdout();
-    let mut reader = io::stdin();
     let mut buffer = [0; 1];
-
-    stdout.lock().flush()?;
-    reader.read_exact(&mut buffer)?;
+    io::stdout().lock().flush()?;
+    io::stdin().read_exact(&mut buffer)?;
     Ok(buffer[0] as char)
 }
 
