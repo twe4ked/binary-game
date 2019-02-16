@@ -33,11 +33,15 @@ pub fn run() -> Result<()> {
         print(state.answer, state.problem);
 
         if state.answer == state.problem {
+            let min_presses = state.problem.count_ones();
+
             println!(
-                "You win! Finished in {}ms with {} press{}",
+                "You win! Finished in {}ms with {} press{}, min: {} press{}",
                 state.now.elapsed().unwrap().as_millis(),
                 state.presses,
-                (if state.presses == 1 { "" } else { "es" })
+                (if state.presses == 1 { "" } else { "es" }),
+                min_presses,
+                (if min_presses == 1 { "" } else { "es" }),
             );
             println!("Hit any key to continue...");
 
