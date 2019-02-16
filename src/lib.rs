@@ -10,7 +10,7 @@ struct State {
     answer: u8,
     problem: u8,
     now: SystemTime,
-    guesses: u8,
+    presses: u8,
 }
 
 impl State {
@@ -19,7 +19,7 @@ impl State {
             answer: 0,
             problem: rand::thread_rng().gen(),
             now: SystemTime::now(),
-            guesses: 0,
+            presses: 0,
         }
     }
 }
@@ -34,10 +34,10 @@ pub fn run() -> Result<()> {
 
         if state.answer == state.problem {
             println!(
-                "You win! Finished in {}ms with {} guess{}",
+                "You win! Finished in {}ms with {} press{}",
                 state.now.elapsed().unwrap().as_millis(),
-                state.guesses,
-                (if state.guesses == 1 { "" } else { "es" })
+                state.presses,
+                (if state.presses == 1 { "" } else { "es" })
             );
             println!("Hit any key to continue...");
 
@@ -45,7 +45,7 @@ pub fn run() -> Result<()> {
 
             state = State::new();
         } else {
-            state.guesses += 1;
+            state.presses += 1;
             state.answer ^= match get_char() {
                 Ok('1') => 0b1000_0000,
                 Ok('2') => 0b0100_0000,
