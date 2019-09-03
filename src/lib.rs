@@ -75,7 +75,8 @@ fn print(answer: u8, problem: u8) {
 }
 
 fn setup_terminal() -> Result<()> {
-    let mut termios = termios::Termios::from_fd(libc::STDIN_FILENO)?;
+    const STDIN_FILENO: i32 = 0;
+    let mut termios = termios::Termios::from_fd(STDIN_FILENO)?;
     termios.c_lflag &= !(termios::ICANON | termios::ECHO);
     termios::tcsetattr(0, termios::TCSANOW, &termios)?;
     Ok(())
