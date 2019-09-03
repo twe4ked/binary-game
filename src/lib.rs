@@ -1,5 +1,3 @@
-#![feature(duration_as_u128)]
-
 use rand::Rng;
 use std::{
     io::{self, Read, Result, Write},
