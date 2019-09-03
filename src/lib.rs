@@ -1,8 +1,6 @@
 use rand::Rng;
-use std::{
-    io::{self, Read, Result, Write},
-    time::SystemTime,
-};
+use std::io::{self, Read, Result, Write};
+use std::time::SystemTime;
 
 struct State {
     answer: u8,
