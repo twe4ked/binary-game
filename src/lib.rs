@@ -20,6 +20,14 @@ impl State {
     }
 
     fn print(&self) {
+        if self.is_solved() {
+            self.print_finish()
+        } else {
+            self.print_problem()
+        }
+    }
+
+    fn print_problem(&self) {
         escape_sequence(&"2J");
         escape_sequence(&"H");
 
@@ -60,12 +68,10 @@ pub fn run() -> Result<()> {
         state.print();
 
         if state.is_solved() {
-            state.print_finish();
+            state = State::new();
 
             println!("Hit any key to continue...");
             get_char()?;
-
-            state = State::new();
         } else {
             state.guess(get_guess()?);
         }
