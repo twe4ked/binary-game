@@ -40,6 +40,11 @@ impl State {
             (if min_presses == 1 { "" } else { "es" }),
         );
     }
+
+    fn guess(&mut self, n: u8) {
+        self.presses += 1;
+        self.answer ^= n;
+    }
 }
 
 pub fn run() -> Result<()> {
@@ -58,20 +63,23 @@ pub fn run() -> Result<()> {
 
             state = State::new();
         } else {
-            state.presses += 1;
-            state.answer ^= match get_char()? {
-                '1' => 0b1000_0000,
-                '2' => 0b0100_0000,
-                '3' => 0b0010_0000,
-                '4' => 0b0001_0000,
-                '5' => 0b0000_1000,
-                '6' => 0b0000_0100,
-                '7' => 0b0000_0010,
-                '8' => 0b0000_0001,
-                _ => 0,
-            };
+            state.guess(get_guess()?);
         }
     }
+}
+
+fn get_guess() -> Result<u8> {
+    Ok(match get_char()? {
+        '1' => 0b1000_0000,
+        '2' => 0b0100_0000,
+        '3' => 0b0010_0000,
+        '4' => 0b0001_0000,
+        '5' => 0b0000_1000,
+        '6' => 0b0000_0100,
+        '7' => 0b0000_0010,
+        '8' => 0b0000_0001,
+        _ => 0,
+    })
 }
 
 fn setup_terminal() -> Result<()> {
