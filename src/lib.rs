@@ -6,7 +6,7 @@ struct State {
     answer: u8,
     problem: u8,
     now: SystemTime,
-    presses: u8,
+    presses: u32,
 }
 
 impl State {
