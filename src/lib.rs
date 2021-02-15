@@ -18,6 +18,28 @@ impl State {
             presses: 0,
         }
     }
+
+    fn print(&self) {
+        escape_sequence(&"2J");
+        escape_sequence(&"H");
+
+        println!("--------------------");
+        println!("Target number:   {:3}", self.problem);
+        println!("{:08b}       = {:3}", self.answer, self.answer);
+    }
+
+    fn print_finish(&self) {
+        let min_presses = self.problem.count_ones();
+
+        println!(
+            "You win! Finished in {}ms with {} press{}, min: {} press{}",
+            self.now.elapsed().unwrap().as_millis(),
+            self.presses,
+            (if self.presses == 1 { "" } else { "es" }),
+            min_presses,
+            (if min_presses == 1 { "" } else { "es" }),
+        );
+    }
 }
 
 pub fn run() -> Result<()> {
@@ -26,21 +48,12 @@ pub fn run() -> Result<()> {
     let mut state = State::new();
 
     loop {
-        print(state.answer, state.problem);
+        state.print();
 
         if state.answer == state.problem {
-            let min_presses = state.problem.count_ones();
+            state.print_finish();
 
-            println!(
-                "You win! Finished in {}ms with {} press{}, min: {} press{}",
-                state.now.elapsed().unwrap().as_millis(),
-                state.presses,
-                (if state.presses == 1 { "" } else { "es" }),
-                min_presses,
-                (if min_presses == 1 { "" } else { "es" }),
-            );
             println!("Hit any key to continue...");
-
             get_char()?;
 
             state = State::new();
@@ -59,15 +72,6 @@ pub fn run() -> Result<()> {
             };
         }
     }
-}
-
-fn print(answer: u8, problem: u8) {
-    escape_sequence(&"2J");
-    escape_sequence(&"H");
-
-    println!("--------------------");
-    println!("Target number:   {:3}", problem);
-    println!("{:08b}       = {:3}", answer, answer);
 }
 
 fn setup_terminal() -> Result<()> {
