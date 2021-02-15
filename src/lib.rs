@@ -45,6 +45,10 @@ impl State {
         self.presses += 1;
         self.answer ^= n;
     }
+
+    fn is_solved(&self) -> bool {
+        self.answer == self.problem
+    }
 }
 
 pub fn run() -> Result<()> {
@@ -55,7 +59,7 @@ pub fn run() -> Result<()> {
     loop {
         state.print();
 
-        if state.answer == state.problem {
+        if state.is_solved() {
             state.print_finish();
 
             println!("Hit any key to continue...");
